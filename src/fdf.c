@@ -69,7 +69,7 @@ void	draw_line(t_data *img, int	x0, int y0, int	x1, int y1)
 		my_mlx_pixel_put(img, x0, y0, 0xFFFFFF);
 		if (x0 == x1 && y0 == y1)
 			break ;
-		e2 = line.err * 2
+		e2 = line.err * 2;
 		if (e2 >= line.dy)
 		{
 			x0 += line.sx;
@@ -78,7 +78,7 @@ void	draw_line(t_data *img, int	x0, int y0, int	x1, int y1)
 		if (e2 <= line.dx)
 		{
 			y0 += line.sy;
-			line.err += line.dx
+			line.err += line.dx;
 		}
 	}
 }
@@ -122,7 +122,13 @@ int	main (int ac, char **av)
 	error = setup_buffers(&vars);
 	if (error)
 		return (1);
-	my_mlx_pixel_put(&vars.img_front, 500, 500, 0x00FF0000);
+	//my_mlx_pixel_put(&vars.img_front, 500, 500, 0x00FF0000);
+	draw_line(&vars.img_front, 5, 5, 500, 555);
+	draw_line(&vars.img_front, 500, 555, 5, 1000);
+	draw_line(&vars.img_front, 5, 1000, 5, 5);
+	draw_line(&vars.img_front, 1920, 1080, 100, 5);
+
+
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img_front.img, 0, 0);
 	mlx_loop(vars.mlx);
 
