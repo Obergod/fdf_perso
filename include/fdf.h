@@ -13,9 +13,9 @@
 #ifndef FDF_H
 # define FDF_H
 
-# include "ft_printf.h"
-# include "libft.h"
 # include "mlx.h"
+# include "libft.h"
+# include "ft_printf.h"
 
 typedef struct	s_data
 {
@@ -26,6 +26,25 @@ typedef struct	s_data
 	int		endian;
 }	t_data;
 
+typedef struct	s_vars
+{
+	void	*mlx;
+	void	*win;
+	t_data	img_front;
+	t_data	img_back;
+}	t_vars;
+
+typedef struct s_line
+{
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+}	t_line;
+
+/*****		a trier			*****/
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 
 #endif

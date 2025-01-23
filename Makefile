@@ -18,7 +18,7 @@ LIBFT = full_libft/libftfull.a
 # Compilation flags
 CC = gcc
 #WFLAGS = -Wall -Werror -Wextra
-CFLAGS += -O3 -I$(INCS_DIR) -I$(LIBFT_INC) -I/usr/include -I$(MLX_DIR)
+CFLAGS += -O3 -I$(INCS_DIR) -I$(LIBFT_INC) -I/usr/include -I$(MLX_DIR) -g3
 
 # Libraries
 MLX_DIR = minilibx-linux/
