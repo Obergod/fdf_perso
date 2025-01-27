@@ -17,6 +17,8 @@
 # include "libft.h"
 # include "ft_printf.h"
 
+
+/*****			def of structs			*****/
 typedef struct	s_data
 {
 	void	*img;
@@ -42,6 +44,23 @@ typedef struct s_line
 	int	sy;
 	int	err;
 }	t_line;
+
+typedef struct s_point
+{
+	int	x;
+	int	y;
+	int	z;
+	int	color;
+}	t_point;
+
+typedef struct s_map
+{
+	t_point	**points;
+	int		height;
+	int		width;
+}	t_map;
+
+
 
 /*****		a trier			*****/
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);

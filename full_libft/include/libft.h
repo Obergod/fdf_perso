@@ -88,9 +88,14 @@ void				ft_lstdelone(t_list *lst, void (*del)(void *));
 void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 int					ft_lstsize(t_list *lst);
+
+/*
+	new_ones
+*/
 int					count_words(char const *s, char c);
 int					ft_abs(int nb);
 int					ft_atol(const char *nptr);
 int					ft_strcmp(const char *s1, const char *s2);
+void				ft_free_split(char	**split);
 
 #endif
