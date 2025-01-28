@@ -15,9 +15,9 @@ NAME = fdf
 #BONUS_NAME = checker
 LIBFT = full_libft/libftfull.a
 
-# Compilation flags
+# Compilation
 CC = gcc
-#WFLAGS = -Wall -Werror -Wextra
+WFLAGS = -Wall -Werror -Wextra
 CFLAGS += -O3 -I$(INCS_DIR) -I$(LIBFT_INC) -I/usr/include -I$(MLX_DIR) -g3
 
 # Libraries
@@ -31,8 +31,9 @@ SRCS_BONUS_DIR = src/checker_bonus/
 INCS_DIR = include/
 LIBFT_INC = full_libft/include/
 
-#sources for separated main and bonus
-COMMON_SRC = fdf.c
+#sources
+COMMON_SRC = fdf.c draw.c \
+			 parsing/parsing.c
 
 #MAIN_SRC =
 

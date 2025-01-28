@@ -43,63 +43,16 @@ void	render_frame(t_vars *vars)
 	vars->img_back = temp;
 }
 */
-void	init_line (t_line *line, int x0, int y0, int x1, int y1)
-{
-	line->dx = ft_abs(x1 - x0);
-	line->dy = -ft_abs(y1 - y0);
-	if (x0 < x1)
-		line->sx = 1;
-	else
-		line->sx = -1;
-	if (y0 < y1)
-		line->sy = 1;
-	else
-		line->sy = -1;
-	line->err = line->dx + line->dy;
-}
-
-void	draw_line(t_data *img, int	x0, int y0, int	x1, int y1)
-{
-	t_line	line;
-	int		e2;
-
-	init_line(&line, x0, y0, x1, y1);
-	while (1)
-	{
-		my_mlx_pixel_put(img, x0, y0, 0xFFFFFF);
-		if (x0 == x1 && y0 == y1)
-			break ;
-		e2 = line.err * 2;
-		if (e2 >= line.dy)
-		{
-			x0 += line.sx;
-			line.err += line.dy;
-		}
-		if (e2 <= line.dx)
-		{
-			y0 += line.sy;
-			line.err += line.dx;
-		}
-	}
-}
-
-void	my_mlx_pixel_put(t_data *img, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-}
 
 int	setup_buffers(t_vars *vars)
 {
 	vars->mlx = mlx_init();
-	if (!vars)
+	if (!vars->mlx)
 		return (1);
-	vars->win = mlx_new_window(vars->mlx, 1920, 1080, "Ravachol");
+	vars->win = mlx_new_window(vars->mlx, WIN_WIDTH, WIN_HEIGHT, "Ravachol");
 	
-	vars->img_front.img = mlx_new_image(vars->mlx, 1920, 1080);
-	vars->img_back.img = mlx_new_image(vars->mlx, 1920, 1080);
+	vars->img_front.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
+	vars->img_back.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
 	if (!vars->img_front.img || !vars->img_back.img)
 		return (1);
 	vars->img_front.addr = mlx_get_data_addr(vars->img_front.img,
@@ -113,22 +66,26 @@ int	setup_buffers(t_vars *vars)
 	return (0);
 }
 
-
 int	main (int ac, char **av)
 {
 	t_vars	vars;
 	int		error;
-	
+	t_map	*map;
+	int		fd;
+
+	if (ac != 2)
+		return (1);
+	fd = open(av[1], O_RDONLY);
+	if (fd < 0)
+		return (1);
 	error = setup_buffers(&vars);
 	if (error)
 		return (1);
-	//my_mlx_pixel_put(&vars.img_front, 500, 500, 0x00FF0000);
-	draw_line(&vars.img_front, 5, 5, 500, 555);
-	draw_line(&vars.img_front, 500, 555, 5, 1000);
-	draw_line(&vars.img_front, 5, 1000, 5, 5);
-	draw_line(&vars.img_front, 1920, 1080, 100, 5);
-
-
+	map  = get_data(fd);
+	printf("after get_data\n");
+	if (!map)
+		return (1);
+	draw_map(map, &vars.img_front);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img_front.img, 0, 0);
 	mlx_loop(vars.mlx);
 
