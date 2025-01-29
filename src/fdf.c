@@ -44,27 +44,6 @@ void	render_frame(t_vars *vars)
 }
 */
 
-int	setup_buffers(t_vars *vars)
-{
-	vars->mlx = mlx_init();
-	if (!vars->mlx)
-		return (1);
-	vars->win = mlx_new_window(vars->mlx, WIN_WIDTH, WIN_HEIGHT, "Ravachol");
-	
-	vars->img_front.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
-	vars->img_back.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
-	if (!vars->img_front.img || !vars->img_back.img)
-		return (1);
-	vars->img_front.addr = mlx_get_data_addr(vars->img_front.img,
-								&vars->img_front.bits_per_pixel,
-								&vars->img_front.line_length,
-								&vars->img_front.endian);
-	vars->img_back.addr = mlx_get_data_addr(vars->img_back.img,
-								&vars->img_back.bits_per_pixel,
-								&vars->img_back.line_length,
-								&vars->img_back.endian);
-	return (0);
-}
 
 int	main (int ac, char **av)
 {
@@ -82,11 +61,12 @@ int	main (int ac, char **av)
 	if (error)
 		return (1);
 	map  = get_data(fd);
-	printf("after get_data\n");
 	if (!map)
 		return (1);
 	draw_map(map, &vars.img_front);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img_front.img, 0, 0);
+	mlx_hook(vars.win, 17, 0, close_window, &vars);
+	mlx_hook(vars.win, 2, 1L<<0, key_hook, &vars);
 	mlx_loop(vars.mlx);
 
 	return (0);

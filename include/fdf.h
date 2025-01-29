@@ -87,5 +87,7 @@ void 	draw_map(t_map *map, t_data *data);
 
 /*****	window management 	*****/
 int	setup_buffers(t_vars *vars);
+int	close_window(t_vars *vars);
+int	key_hook(int keycode, t_vars *vars);
 
 #endif
