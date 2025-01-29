@@ -19,7 +19,8 @@
 # include "ft_printf.h"
 # include "get_next_line.h"
 
-# define ISO_ANGLE 0.523599f
+# define PI 3.14159265358979323846
+# define ISO_ANGLE (PI / 6.0)
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
 # define SCALE 40
@@ -64,6 +65,7 @@ typedef struct s_map
 	t_points	**points;
 	int			height;
 	int			width;
+	double		scale;
 }	t_map;
 
 

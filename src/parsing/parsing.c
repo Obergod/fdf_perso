@@ -68,6 +68,19 @@ t_points	**init_points(char **map_str, int height, int width)
 	return (points);
 }
 
+void	init_scale(t_map *map)
+{
+	double scale_x;
+	double scale_y;
+	
+	scale_x = (WIN_WIDTH * 0.7) / (map->width + map->height);
+	scale_y = (WIN_HEIGHT * 0.7) / (map->width + map->height);
+	if (scale_x < scale_y)
+		map->scale = scale_x;
+	else
+		map->scale = scale_y;
+}
+
 t_map	*get_data(int fd)
 {
 	t_map	*map;
@@ -75,33 +88,26 @@ t_map	*get_data(int fd)
 	char	*file;
 	int		i;
 
-	printf("1: Starting get_data\n");
 	i = 0;
 	map = malloc(sizeof(t_map));
 	if (!map)
 		return (NULL);
-	printf("2: After map malloc\n");
-	
 	file = get_all_file(fd);
 	if (!file)
 		return (free(map), NULL);
-	
 	map_str = ft_split(file, '\n');
 	free(file);
 	if (!map_str)
 		return (free(map), NULL);
-	
 	map->width = count_words(map_str[0], ' ');
 	while (map_str[i])
 		i++;
 	map->height = i;
-	
 	map->points = init_points(map_str, map->height, map->width);
-	
+	init_scale(map);
 	ft_free_split(map_str);
 	if (!map->points)
 		return (free(map), NULL);
-
 	return (map);
 }
 
