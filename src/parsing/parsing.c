@@ -61,7 +61,7 @@ t_points	**init_points(char **map_str, int height, int width)
 			points[i][j].y = i; 
 			points[i][j].x = j;
 			points[i][j].z = ft_atoi(map_split[j]);
-			points[i][j].color = 0xFFFFFF; 
+			points[i][j].color = 0xFFFFFF;
 		}
 		ft_free_split(map_split);	
 	}
