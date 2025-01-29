@@ -64,15 +64,15 @@ void	my_mlx_pixel_put(t_data *img, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void	iso_transform(t_points *p, double scale)
+void	iso_transform(t_points *p, t_map *map)
 {
 	double old_x;
 	double old_y;
 	double old_z;
 
-	old_x = p->x * scale;
-	old_y = p->y * scale;
-	old_z = p->z * scale / 3;
+	old_x = p->x * map->scale;
+	old_y = p->y * map->scale;
+	old_z = (double)p->z * map->z_scale;
 	p->x = (int)((old_x - old_y) * cos(ISO_ANGLE)) + WIN_WIDTH / 2;
 	p->y = (int)((old_x + old_y) * sin(ISO_ANGLE) - old_z) + WIN_HEIGHT / 3;
 }
@@ -91,17 +91,17 @@ void draw_map(t_map *map, t_data *data)
 		while (++j < map->width)
 		{
 			p1 = map->points[i][j];
-			iso_transform(&p1, map->scale);
+			iso_transform(&p1, map);
 			if (j < map->width - 1)
 			{
 				p2 = map->points[i][j + 1];
-				iso_transform(&p2, map->scale);
+				iso_transform(&p2, map);
 				draw_line(data, p1, p2);
 			}
 			if (i < map->height - 1)
 			{
 				p2 = map->points[i + 1][j];
-				iso_transform(&p2, map->scale);
+				iso_transform(&p2, map);
 				draw_line(data, p1, p2);
 			}
 		}

@@ -66,6 +66,7 @@ typedef struct s_map
 	int			height;
 	int			width;
 	double		scale;
+	double		z_scale;
 }	t_map;
 
 

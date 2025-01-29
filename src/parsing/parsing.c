@@ -68,17 +68,47 @@ t_points	**init_points(char **map_str, int height, int width)
 	return (points);
 }
 
+int	find_z_range(t_map *map)
+{
+	int	i;
+	int	j;
+	int	z_min;
+	int	z_max;
+
+	z_min = map->points[0][0].z;
+	z_max = z_min;
+	i = -1;
+	while (++i < map->height)
+	{
+		j = -1;
+		while (++j < map->width)
+		{
+			if (map->points[i][j].z < z_min)
+				z_min = map->points[i][j].z;
+			if (map->points[i][j].z > z_max)
+				z_max = map->points[i][j].z;
+		}
+	}
+	return (z_max - z_min);
+}
+
 void	init_scale(t_map *map)
 {
-	double scale_x;
-	double scale_y;
-	
+	double	scale_x;
+	double	scale_y;
+	int		z_range;
+
+	z_range = find_z_range(map);
 	scale_x = (WIN_WIDTH * 0.7) / (map->width + map->height);
 	scale_y = (WIN_HEIGHT * 0.7) / (map->width + map->height);
 	if (scale_x < scale_y)
 		map->scale = scale_x;
 	else
 		map->scale = scale_y;
+	if (z_range > 0)
+		map->z_scale = map->scale / (z_range * 0.3);
+	else
+		map->z_scale = map->scale / 4;
 }
 
 t_map	*get_data(int fd)
