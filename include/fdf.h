@@ -39,8 +39,7 @@ typedef struct	s_vars
 {
 	void	*mlx;
 	void	*win;
-	t_data	img_front;
-	t_data	img_back;
+	t_data	img;
 }	t_vars;
 
 typedef struct s_line
@@ -67,17 +66,27 @@ typedef struct s_map
 	int			width;
 	double		scale;
 	double		z_scale;
+	int			z_min;
+	int			z_max;
+	double		zoom;
 }	t_map;
 
 
 
 /*****		a trier			*****/
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void	free_points(t_points **points, int height);
+void	free_map(t_map *map);
+void	iso_transform(t_points *p, t_map *map);
+void	find_z_min_max(t_map *map);
+int		get_z_color(char *nb, int *color);
 
 /*****		parsing			*****/
 char		*get_all_file(int fd);
 t_points	**init_points(char **map_str, int height, int width);
 t_map		*get_data(int fd);
+void		free_map(t_map *map);
+void		free_points(t_points **points, int height);
 
 /*****		draw			*****/
 void	init_line (t_line *line, int x0, int y0, int x1, int y1);

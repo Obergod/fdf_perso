@@ -23,8 +23,10 @@ char	*stock_extend(char *stock, char *buffer)
 		return (temp);
 	}
 	temp = ft_strjoin(stock, buffer);
-	free(stock);
-	free(buffer);
+	if (stock)
+		free(stock);
+	if (buffer)
+		free(buffer);
 	return (temp);
 }
 

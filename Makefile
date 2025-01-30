@@ -32,8 +32,9 @@ INCS_DIR = include/
 LIBFT_INC = full_libft/include/
 
 #sources
-COMMON_SRC = fdf.c draw.c window.c \
-			 parsing/parsing.c
+COMMON_SRC = fdf.c draw.c window.c inits.c calculation.c \
+			 parsing/parsing.c \
+			 parsing/parsing_utils.c
 
 #MAIN_SRC =
 

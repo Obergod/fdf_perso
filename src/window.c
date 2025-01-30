@@ -12,34 +12,11 @@
 
 #include "fdf.h"
 
-int	setup_buffers(t_vars *vars)
-{
-	vars->mlx = mlx_init();
-	if (!vars->mlx)
-		return (1);
-	vars->win = mlx_new_window(vars->mlx, WIN_WIDTH, WIN_HEIGHT, "Ravachol");
-	
-	vars->img_front.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
-	vars->img_back.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
-	if (!vars->img_front.img || !vars->img_back.img)
-		return (1);
-	vars->img_front.addr = mlx_get_data_addr(vars->img_front.img,
-								&vars->img_front.bits_per_pixel,
-								&vars->img_front.line_length,
-								&vars->img_front.endian);
-	vars->img_back.addr = mlx_get_data_addr(vars->img_back.img,
-								&vars->img_back.bits_per_pixel,
-								&vars->img_back.line_length,
-								&vars->img_back.endian);
-	return (0);
-}
 
 int	close_window(t_vars *vars)
 {
-	if (vars->img_front.img)
-		mlx_destroy_image(vars->mlx, vars->img_front.img);
-	if (vars->img_back.img)
-		mlx_destroy_image(vars->mlx, vars->img_back.img);
+	if (vars->img.img)
+		mlx_destroy_image(vars->mlx, vars->img.img);
 	if (vars->win)
 		mlx_destroy_window(vars->mlx, vars->win);
 	if (vars->mlx)
@@ -51,5 +28,29 @@ int	key_hook(int keycode, t_vars *vars)
 {
 	if (keycode == 65307 || keycode == 53)
 		close_window(vars);
+/*	else if (keycode == 65453 || keycode == 45)
+	{
+		map->zoom *= 0.9;
+		clear_image(&vars);
+		draw_map(map);
+	}*/
 	return (0);
+}
+
+void	clear_image(t_data *img)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < WIN_HEIGHT)
+	{
+		j = 0;
+		while (j < WIN_WIDTH)
+		{
+			my_mlx_pixel_put(img, j, i, 0x000000);
+			j++;
+		}
+		i++;
+	}
 }

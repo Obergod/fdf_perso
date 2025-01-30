@@ -12,38 +12,13 @@
 
 #include "fdf.h"
 
-void	clear_image(t_data *img)
+void	win_loop(t_vars vars)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < 1080)
-	{
-		j = 0;
-		while (j < 1920)
-		{
-			my_mlx_pixel_put(img, j, i, 0x000000);
-			j++;
-		}
-		i++;
-	}
+	mlx_put_image_to_window(vars.mlx, vars.win, vars.img.img, 0, 0);
+	mlx_hook(vars.win, 17, 0, close_window, &vars);
+	mlx_hook(vars.win, 2, 1L<<0, key_hook, &vars);
+	mlx_loop(vars.mlx);
 }
-
-/*
-void	render_frame(t_vars *vars)
-{
-	t_data	temp;
-
-	clear_image(&vars->img_back);
-	draw_stuff(&vars->img_back);
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->img_back.img, 0, 0);
-	temp = vars->img_front;
-	vars->img_front = vars->img_back;
-	vars->img_back = temp;
-}
-*/
-
 
 int	main (int ac, char **av)
 {
@@ -59,15 +34,16 @@ int	main (int ac, char **av)
 		return (1);
 	error = setup_buffers(&vars);
 	if (error)
-		return (1);
+		return (close(fd), 1);
 	map  = get_data(fd);
+	close(fd);
 	if (!map)
+	{
+		close_window(&vars);
 		return (1);
-	draw_map(map, &vars.img_front);
-	mlx_put_image_to_window(vars.mlx, vars.win, vars.img_front.img, 0, 0);
-	mlx_hook(vars.win, 17, 0, close_window, &vars);
-	mlx_hook(vars.win, 2, 1L<<0, key_hook, &vars);
-	mlx_loop(vars.mlx);
-
+	}
+	draw_map(map, &vars.img);
+	free_map(map);
+	win_loop(vars);
 	return (0);
 }
