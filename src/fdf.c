@@ -12,13 +12,6 @@
 
 #include "fdf.h"
 
-void	win_loop(t_vars vars)
-{
-	mlx_put_image_to_window(vars.mlx, vars.win, vars.img.img, 0, 0);
-	mlx_hook(vars.win, 17, 0, close_window, &vars);
-	mlx_hook(vars.win, 2, 1L<<0, key_hook, &vars);
-	mlx_loop(vars.mlx);
-}
 
 int	main (int ac, char **av)
 {
@@ -36,6 +29,7 @@ int	main (int ac, char **av)
 	if (error)
 		return (close(fd), 1);
 	map  = get_data(fd);
+    printf("2. Zoom after get_data: %f\n", map->zoom);
 	close(fd);
 	if (!map)
 	{
@@ -43,6 +37,7 @@ int	main (int ac, char **av)
 		return (1);
 	}
 	draw_map(map, &vars.img);
+	printf("3. Zoom after setting vars.map: %f\n", map->zoom);
 	free_map(map);
 	win_loop(vars);
 	return (0);

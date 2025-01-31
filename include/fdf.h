@@ -93,10 +93,12 @@ void	init_line (t_line *line, int x0, int y0, int x1, int y1);
 void	draw_line(t_data *img, t_points p1, t_points p2);
 void	my_mlx_pixel_put(t_data *img, int x, int y, int color);
 void 	draw_map(t_map *map, t_data *data);
+void	render_map(t_map *map, t_vars *vars);
 
 /*****	window management 	*****/
-int	setup_buffers(t_vars *vars);
-int	close_window(t_vars *vars);
-int	key_hook(int keycode, t_vars *vars);
+int		setup_buffers(t_vars *vars);
+int		close_window(t_vars *vars);
+int		key_hook(int keycode, t_vars *vars, t_map *map);
+void	win_loop(t_vars *vars);
 
 #endif

@@ -12,6 +12,13 @@
 
 #include "fdf.h"
 
+void	win_loop(t_vars *vars)
+{
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
+	mlx_hook(vars->win, 17, 0, close_window, &vars);
+	mlx_hook(vars->win, 2, 1L<<0, key_hook, &vars);
+	mlx_loop(vars->mlx);
+}
 
 int	close_window(t_vars *vars)
 {
@@ -24,16 +31,22 @@ int	close_window(t_vars *vars)
 	exit(0);
 }
 
-int	key_hook(int keycode, t_vars *vars)
+int	key_hook(int keycode, t_vars *vars, t_map *map)
 {
 	if (keycode == 65307 || keycode == 53)
 		close_window(vars);
-/*	else if (keycode == 65453 || keycode == 45)
+	else if (keycode == 61 || keycode == 65451)
+	{	
+        printf("Before zoom: %f\n", map->zoom);
+		map->zoom *= 1.1;
+		render_map(map, vars);
+		printf("after zoom: %f\n", map->zoom);
+	}
+	else if(keycode == 45 || keycode == 65453)
 	{
 		map->zoom *= 0.9;
-		clear_image(&vars);
-		draw_map(map);
-	}*/
+		render_map(map, vars);
+	}
 	return (0);
 }
 
@@ -53,4 +66,11 @@ void	clear_image(t_data *img)
 		}
 		i++;
 	}
+}
+
+void	render_map(t_map *map, t_vars *vars)
+{
+	clear_image(&vars->img);
+	draw_map(map, &vars->img);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
 }

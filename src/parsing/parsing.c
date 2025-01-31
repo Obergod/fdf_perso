@@ -32,12 +32,45 @@ char	*get_all_file(int fd)
 	}
 	return (stock);
 }
-/*
-int	get_colors(int z, int z_max, z_min)
+
+int	create_color(int z, t_map *map)
 {
-	i
+	double	percentage;
+	int		r;
+	int		g;
+	int		b;
+
+	if (map->z_max == map->z_min)
+		return (0x0000FF);
+
+	percentage = (double)(z - map->z_min) / (map->z_max - map->z_min);
+	r = (int)(percentage * 255);
+	b = (int)((1 - percentage) * 255);
+	g = (int)((1 - fabs(2 * percentage - 1)) * 255);
+	return ((r << 16) | (g << 8) | b);
 }
-*/
+
+void	set_colors(t_map *map)
+{
+	int	i;
+	int	j;
+	int	cur_z;
+
+	i = -1;
+	while (++i < map->height)
+	{
+		j = -1;
+		while (++j < map->width)
+		{
+			if (!map->points[i][j].color)
+			{
+				cur_z = map->points[i][j].z;
+				map->points[i][j].color = create_color(cur_z, map);
+			}
+		}
+	}
+}
+
 int	get_z_color(char *nb, int *color)
 {
 	int		i;
@@ -83,6 +116,7 @@ static t_points *init_single_row(char **map_str, int row, int width)
 	{
 		points[col].y = row;
 		points[col].x = col;
+		points[col].color = 0;
 		points[col].z = get_z_color(split[col], &points[col].color);
 	}
 	ft_free_split(split);
@@ -145,6 +179,7 @@ void	init_scale(t_map *map)
 	else
 		map->z_scale = map->scale / 4;
 	map->zoom = 1.0;
+    printf("Zoom initialized to: %f\n", map->zoom);  // Debug print
 }
 
 t_map	*get_data(int fd)
