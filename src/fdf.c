@@ -12,6 +12,16 @@
 
 #include "fdf.h"
 
+void    cleanup_vars(t_vars *vars)
+{
+    if (vars->img.img)
+        mlx_destroy_image(vars->mlx, vars->img.img);
+    if (vars->win)
+        mlx_destroy_window(vars->mlx, vars->win);
+    if (vars->mlx)
+        free(vars->mlx);
+    exit(1);
+}
 
 int	main (int ac, char **av)
 {
@@ -29,16 +39,14 @@ int	main (int ac, char **av)
 	if (error)
 		return (close(fd), 1);
 	map  = get_data(fd);
-    printf("2. Zoom after get_data: %f\n", map->zoom);
 	close(fd);
 	if (!map)
 	{
-		close_window(&vars);
+		cleanup_vars(&vars);
 		return (1);
 	}
 	draw_map(map, &vars.img);
-	printf("3. Zoom after setting vars.map: %f\n", map->zoom);
+	win_loop(&vars, map);
 	free_map(map);
-	win_loop(vars);
 	return (0);
 }

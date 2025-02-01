@@ -41,7 +41,7 @@ int	setup_buffers(t_vars *vars)
 	vars->img.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
 	if (!vars->img.img)
 	{
-		close_window(vars);
+		cleanup_vars(vars);
 		return (1);
 	}
 	vars->img.addr = mlx_get_data_addr(vars->img.img,
@@ -49,6 +49,6 @@ int	setup_buffers(t_vars *vars)
 								&vars->img.line_length,
 								&vars->img.endian);
 	if (!vars->img.addr)
-		close_window(vars);
+		cleanup_vars(vars);
 	return (0);
 }

@@ -69,9 +69,15 @@ typedef struct s_map
 	int			z_min;
 	int			z_max;
 	double		zoom;
+	int			offset_x;
+	int			offset_y;
 }	t_map;
 
-
+typedef struct	s_hook
+{
+	t_vars *vars;
+	t_map *map;
+}	t_hook;
 
 /*****		a trier			*****/
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
@@ -97,8 +103,10 @@ void	render_map(t_map *map, t_vars *vars);
 
 /*****	window management 	*****/
 int		setup_buffers(t_vars *vars);
-int		close_window(t_vars *vars);
-int		key_hook(int keycode, t_vars *vars, t_map *map);
-void	win_loop(t_vars *vars);
+int	close_window(t_hook *hook);
+int	key_hook(int keycode, t_hook *hook);
+void	win_loop(t_vars *vars, t_map *map);
+void    cleanup_vars(t_vars *vars);
+void	move_map(int keycode, t_map *map, t_vars *vars);
 
 #endif

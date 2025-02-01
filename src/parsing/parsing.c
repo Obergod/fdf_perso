@@ -179,7 +179,8 @@ void	init_scale(t_map *map)
 	else
 		map->z_scale = map->scale / 4;
 	map->zoom = 1.0;
-    printf("Zoom initialized to: %f\n", map->zoom);  // Debug print
+	map->offset_x = 0;
+	map->offset_y = 0;
 }
 
 t_map	*get_data(int fd)
