@@ -12,18 +12,18 @@
 
 #include "fdf.h"
 
-void    cleanup_vars(t_vars *vars)
+void	cleanup_vars(t_vars *vars)
 {
-    if (vars->img.img)
-        mlx_destroy_image(vars->mlx, vars->img.img);
-    if (vars->win)
-        mlx_destroy_window(vars->mlx, vars->win);
-    if (vars->mlx)
-        free(vars->mlx);
-    exit(1);
+	if (vars->img.img)
+		mlx_destroy_image(vars->mlx, vars->img.img);
+	if (vars->win)
+		mlx_destroy_window(vars->mlx, vars->win);
+	if (vars->mlx)
+		free(vars->mlx);
+	exit(1);
 }
 
-int	main (int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_vars	vars;
 	int		error;
@@ -38,7 +38,7 @@ int	main (int ac, char **av)
 	error = setup_buffers(&vars);
 	if (error)
 		return (close(fd), 1);
-	map  = get_data(fd);
+	map = get_data(fd);
 	close(fd);
 	if (!map)
 	{
