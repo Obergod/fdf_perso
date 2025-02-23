@@ -94,8 +94,8 @@ void	iso_transform(t_points *p, t_map *map)
 	old_x = p->x * map->scale * map->zoom;
 	old_y = p->y * map->scale * map->zoom;
 	old_z = (double)p->z * map->z_scale * map->zoom;
-	p->x = (int)((old_x - old_y) * cos(ISO_ANGLE)) + WIN_WIDTH / 2
+	p->x = (int)((old_x - old_y) * cos(ANGLE_X_COS)) + WIN_WIDTH / 2
 		+ map->offset_x;
-	p->y = (int)((old_x + old_y) * sin(ISO_ANGLE) - old_z) + WIN_HEIGHT / 3
+	p->y = (int)((old_x + old_y) * sin(ANGLE_Y_SIN) - old_z) + WIN_HEIGHT / 3
 		+ map->offset_y;
 }

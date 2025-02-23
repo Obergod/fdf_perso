@@ -19,10 +19,11 @@
 # include "mlx.h"
 # include <math.h>
 
-# define ISO_ANGLE 0.523599
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
 # define SCALE 40
+# define ANGLE_X_COS 0.866
+# define ANGLE_Y_SIN 0.5
 
 /*****			def of structs			*****/
 typedef struct s_data
